@@ -18,11 +18,10 @@ app.use(cartRouter);
 
 app.get('/status/', (req, res) => {
     res.sendStatus(200);
-})
+});
 
 app.get('/status/:id', (req, res) => {
     res.send(req.params);
-})
+});
 
-
-app.listen(5000, () => console.log("SERVER IS ON!"));
+app.listen(process.env.PORT, () => console.log("SERVER IS ON!"));
