@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { getTattoo } from "../controllers/catalog.controller.js";
+import { getPortfolio, postTattoo } from "../controllers/catalog.controller.js";
 
 const catalogRouter = Router();
 
 // envio de lista de tatuagens
-catalogRouter.get("/portfolio", getTattoo);
+catalogRouter.get("/portfolio/:id", getPortfolio);
+catalogRouter.post("/portfolio", postTattoo);
 
 export default catalogRouter;

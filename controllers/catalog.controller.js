@@ -1,37 +1,47 @@
 import db from "../db.js";
+import { tattoSchema } from "../schemas/schema.js";
 
 // envio das tatuagens - tipo 1 ~ 4
-export async function getTattoo(req, res) {
+export async function getPortfolio(req, res) {
+
+    const idArtist = Number(req.params.id);
+
     try {
-        const artistOne = await db.collection('portfolio').find({ artist: 1 }).toArray();
-        res.send(artistOne);
+        const artistPortfolio = await db.collection('portfolio').find({ id: idArtist }).toArray();
+        res.send(artistPortfolio);
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
     };
 
-    try {
-        const artistTwo = await db.collection('portfolio').find({ artist: 2 }).toArray();
-        res.send(artistTwo);
-    } catch (error) {
-        console.log(error);
-        res.sendStatus(500);
+};
+
+export async function postTattoo(req, res) {
+
+    const newTattoo = req.body;
+
+    const validation = tattoSchema.validate(newTattoo);
+
+    if (validation.error) {
+        return res
+            .status(422)
+            .send(validation.error.details.map(detail => detail.message));
     };
 
-    try {
-        const artistThree = await db.collection('portfolio').find({ artist: 3 }).toArray();
-        res.send(artistThree);
-    } catch (error) {
-        console.log(error);
-        res.sendStatus(500);
-    };
+    try{
+        const existente = await db.collection('portfolio').findOne({ photo: newTattoo.photo });
 
-    try {
-        const artistFour = await db.collection('portfolio').find({ artist: 4 }).toArray();
-        res.send(artistFour);
+        if (!existente) {
+            await db.collection('portfolio').insertOne(newTattoo);
+            return res.sendStatus(201);
+        } else {
+            return res.sendStatus(409);
+        };
+
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);
+        return res.sendStatus(500);
     };
 };
+
 
