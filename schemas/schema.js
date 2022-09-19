@@ -42,8 +42,8 @@ export const tattoSchema = joi.object({
 const myJoiObjectId = joiObjectid(joi);
 
 export const cartSchema = joi.object({
-    id: myJoiObjectId().required(),
+    id: joi.string().required(),
     artist: joi.string().required(),
     photo: joi.string().required(),
-    price: joi.string().required()
+    price: joi.number().required()
 })

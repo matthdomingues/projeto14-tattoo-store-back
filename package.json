@@ -9,5 +9,8 @@
     "mongodb": "^4.9.1",
     "react-router-dom": "^6.4.0",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

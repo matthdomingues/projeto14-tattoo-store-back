@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import db from "../db.js";
 import { cartSchema } from "../schemas/schema.js";
 
@@ -33,6 +34,35 @@ export async function getCart(req, res){
     
     const userId = req.params.id;
 
-    const cart = await db.collection('cart').find({_id: userId}).toArray();
+    const cart = await db.collection('cart').find({id: userId}).toArray();
     res.send(cart);
+}
+
+export async function deleteItem(req, res){
+    
+    const {id} = req.params;
+
+    try{
+        await db.collection('cart').deleteOne({_id: new ObjectId(id)})
+        res.sendStatus(200);
+
+    }catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    };
+
+}
+
+export async function deleteCart(req, res){
+
+    const {id} = req.params;
+
+    try{
+        await db.collection('cart').deleteMany({id: id});
+        res.sendStatus(200);
+
+    }catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    };
 }

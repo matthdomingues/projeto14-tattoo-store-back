@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addCart, getCart } from "../controllers/cart.controller.js";
+import { addCart, deleteCart, deleteItem, getCart } from "../controllers/cart.controller.js";
 
 const cartRouter = Router()
 
@@ -7,5 +7,7 @@ const cartRouter = Router()
 cartRouter.post('/cart', addCart);
 //Pegar items da tela de checkout
 cartRouter.get('/cart/:id', getCart);
+cartRouter.delete('/cart/:id', deleteItem)
+cartRouter.delete('/checkout/:id', deleteCart)
 
 export default cartRouter;

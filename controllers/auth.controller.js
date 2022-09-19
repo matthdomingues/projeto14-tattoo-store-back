@@ -23,7 +23,7 @@ export async function SignUp(req, res) {
     };
 
     try {
-        const passwordHash = bcrypt.hashSync(senha, 10);
+        const passwordHash = bcrypt.hashSync(password, 10);
 
         const newUser = { name, email, password: passwordHash };
 
@@ -60,8 +60,8 @@ export async function SignIn(req, res) {
 
         if (user && bcrypt.compareSync(password, user.password)) {
             const token = uuid();
-            await db.collection("sessions").insertOne({ token, userId: user._id });
-            res.status(200).send({ token, name: user.name });
+            await db.collection("sessions").insertOne({ token, userId: user._id, token });
+            res.status(200).send({ token, name: user.name, id: user._id });
         } else {
             res.sendStatus(404);
         };
